@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import './nav.css';
-
+'use client';
 export default function Navbar() {
   const [open, setOpen] = useState(false);
 
