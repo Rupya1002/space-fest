@@ -1,0 +1,65 @@
+{
+    "tapan-misra" :{
+                        "Title": "Tapan Misra",
+                        "Designation": "Chief Guest",
+                        "Description": "Tapan Misra is a renowned Indian scientist and former Director of the Space Applications Centre and Physical Research Laboratory at ISRO.",
+                        "Image": "https://nssc.in/_next/image?url=%2FGuestLecturePage%2FTapan.png&w=640&q=75",
+                        "About": "Tapan Misra is a renowned Indian scientist and former Director of the Space Applications Centre (SAC) and Physical Research Laboratory (PRL) at ISRO. Born in 1961 in Odisha, he pursued Electronics and Telecommunication Engineering from Jadavpur University. A bright academic from an early age, he excelled in the IIT entrance exam and later pursued Electronics and Telecommunication Engineering at Jadavpur University. Misra is highly regarded for his leadership, vision, and dedication to advancing India's space capabilities.",
+                        "Achievements": "Misra is a pioneer in developing Synthetic Aperture Radar (SAR) technology, notably contributing to India’s RISAT-1 and RISAT-2 missions. He also developed advanced microwave remote sensing payloads, including systems for Oceansat and Chandrayaan-2. After retiring from ISRO in 2021, he founded Sisir Radar, a space-tech startup specializing in SAR for drones and satellites. Misra survived multiple poisoning attempts, which remain under investigation.",
+                        "Link": "tapan-misra"
+                    },
+    "dr-p-sreekumar" : {
+                            "Title": "Dr. P. Sreekumar",
+                            "Designation": "Guest Lecture",
+                            "Description": "Parameshwaran Sreekumar is an Indian astrophysicist recognized for his leadership in major scientific institutions.",
+                            "Image": "https://nssc.in/_next/image?url=%2FGuestLecturePage%2FShree.jpg&w=640&q=75",
+                            "About": "Parameshwaran Sreekumar is an Indian astrophysicist known for his leadership in several prominent scientific institutions. He completed his early education in Kerala, earning a Bachelor of Science degree, and went on to pursue a Master of Science in Physics at IIT Bombay. His academic journey then took him to the United States, where he obtained a PhD from the University of New Hampshire. Sreekumar's career has spanned both national and international organizations, including NASA and ISRO, where he has held several prestigious roles. His work reflects a deep commitment to the advancement of space science and astronomy in India. After contributing significantly to ISRO’s missions and programs, he served as the Director of the Indian Institute of Astrophysics and has been involved in the development of scientific infrastructure in India.",
+                            "Achievements": "At NASA, he played a pivotal role as part of the EGRET payload team at the Compton Gamma Ray Observatory, advancing research in gamma-ray astronomy. Returning to India in 1999, he led ISRO’s astronomy division and was instrumental in the development of space science missions. As the Co-Principal Investigator of AstroSat, India’s first space observatory, Sreekumar helped position India at the forefront of astrophysical research. He also contributed to payloads for India's lunar missions and led the Indian Institute of Astrophysics (2013-2018), fostering advancements in space exploration. Sreekumar has been actively involved in international collaborations such as LIGO-India, SKA-India, and the India-TMT programs, enhancing India's global scientific presence.",
+                            "Link": "dr-p-sreekumar"
+                        },
+    "iucaa" :{
+                "Title": "IUCAA Workshop",
+                "Designation": "Workshop",
+                "Description": "Prof. Apratim Ganguly, faculty at IUCAA, and team are conducting a Workshop on open data and gravitational wave (GW) science",
+                "Image": "https://nssc.in/_next/image?url=%2FGuestLecturePage%2FIUCAA.png&w=640&q=75",
+                "About": "The Inter-University Centre for Astronomy and Astrophysics (IUCAA) is organizing a workshop on open data and gravitational wave (GW) science. The workshop will feature presentations by Prof. Apratim Ganguly. Participants will have the opportunity to learn about the latest developments in the field of gravitational wave astronomy and the use of open data in scientific research. The workshop aims to provide a platform for researchers, students, and enthusiasts to engage with experts in the field and explore new avenues for collaboration and learning.",
+                "Agenda": "The workshop will cover a range of topics related to open data and gravitational wave science, including data analysis techniques, data visualization, and the interpretation of gravitational wave signals. Participants will have the opportunity to interact with experts in the field and gain insights into the latest research findings. The workshop will also include hands-on sessions and practical exercises to help participants develop their skills and knowledge in the field of gravitational wave astronomy.",
+                "Link": "iucaa"
+            },
+    "ashish-mahabal" : {
+                            "Title": "Ashish Mahabal",
+                            "Designation": "Guest Lecture",
+                            "Description": "Prof. Ashish Mahabal is an astronomer at CalTech and the Lead Computational and Data Scientist at the Center for Data-Driven Discovery.",
+                            "Image": "https://nssc.in/_next/image?url=%2FGuestLecturePage%2FAshish.jpg&w=640&q=75",
+                            "About": "Ashish Mahabal is an astronomer at Caltech and the Deputy Director of the Center for Data-Driven Discovery. He is the machine learning lead of the Zwicky Transient Facility (ZTF) team, which is dedicated to discovering and characterizing transient astronomical events. Mahabal's research focuses on the study of variable and transient sources in the sky, including supernovae, gamma-ray bursts, and other high-energy phenomena. Besides large astronomical datasets he is also involved in methodology transfer to medical data including cancer detection.",
+                            "Achievements": "Mahabal has made significant contributions to the field of time-domain astronomy, including the development of machine learning algorithms for classifying transient events. He has been involved in several large-scale sky surveys, including the Catalina Real-Time Transient Survey (CRTS) and the ZTF, and is involved in the forthcoming Rubin and Roman survey. His team has developed ZARTH, a game to catch astronomical transients on your mobiles. Mahabal's work has advanced our understanding of the dynamic universe and has paved the way for new discoveries in astronomy.",
+                            "Link": "ashish-mahabal"
+                        },
+    "avi-loeb" :{
+                    "Title": "Prof. Abraham (Avi) Loeb",
+                    "Designation": "Guest Lecture",
+                    "Description": "Prof. Abraham (Avi) Loeb is a Professor of Science at Harvard University and the Founding Director of the Black Hole Initiative at Harvard.",
+                    "Image": "https://nssc.in/_next/image?url=%2FGuestLecturePage%2FAbraham.png&w=640&q=75",
+                    "About": "Abraham (Avi) Loeb is a Professor of Science at Harvard University and the Founding Director of the Black Hole Initiative at Harvard. He is an astrophysicist and cosmologist known for his research on the early universe, the formation of galaxies, and the nature of dark matter. Loeb has made significant contributions to the field of astrophysics, including the study of black holes, the search for extraterrestrial life, and the exploration of the cosmos.",
+                    "Achievements": "Loeb has authored over 700 scientific papers and several books on topics ranging from the first stars and galaxies to the search for intelligent life in the universe. He has received numerous awards and honors for his research, including the Bruno Rossi Prize from the American Astronomical Society and the Gruber Cosmology Prize. Loeb is a leading figure in the field of astrophysics and has been instrumental in shaping our understanding of the universe. His work has inspired new avenues of research and has opened up new possibilities for the exploration of the cosmos.",
+                    "Link": "avi-loeb"
+                },
+    "antariksh-tv" : {
+                        "Title": "Kaushik Bhattacharjee",
+                        "Designation": "Talk Show",
+                        "Description": "Antariksh TV brings the latest in science, space exploration, and technology, offering exciting content to inspire curious minds.",
+                        "Image": "https://nssc.in/_next/image?url=%2FGuestLecturePage%2FAnt.jpg&w=640&q=75",
+                        "About": "Kaushik Bhattacharjee’s Antariksh TV is an innovative YouTube channel dedicated to bringing cutting-edge information and insights about science, space exploration, and technology. With a passion for expanding the boundaries of knowledge, the channel features a range of content, including the latest breakthroughs in astrophysics, space missions, and the most recent advancements in technology. The Antariksh TV team, composed of skilled presenters and producers, is committed to educating and inspiring viewers, fostering a deeper understanding of the universe and humanity's technological achievements. Whether you are curious about the mysteries of the cosmos or the future of space technology, Antariksh TV serves as a dynamic platform for exploration and learning.",
+                        "Achievements": "Since its launch, Antariksh TV has steadily built a reputation for delivering high-quality, engaging content. The channel has covered major space exploration milestones, such as India's Gaganyaan mission and the development of the Bharatiya Antariksh Station, which aims to establish India's first space station by 2035. Antariksh TV’s content has successfully engaged a growing audience, making it a popular source of space and technology news. By staying ahead of global trends in space exploration and tech innovation, the channel has positioned itself as an authority in these fields. Antariksh TV continues to inspire a wide range of viewers, from space enthusiasts to tech aficionados, contributing significantly to public knowledge and interest in space science.",
+                        "Link": "antariksh-tv"
+                    },
+    "debadatta-mishra" : {
+                            "Title": "Debadatta Mishra",
+                            "Designation": "Guest Lecture",
+                            "Description": "Debadatta Mishra is an aerospace engineer and CEO of the Aerospace & Aviation Sector Skill Council, noted for his work with ISRO's space missions",
+                            "Image": "https://nssc.in/_next/image?url=%2FGuestLecturePage%2FDebadatta.jpg&w=640&q=75",
+                            "About": "Shri Debadatta Mishra, a distinguished aerospace engineer, earned his B.Tech in Mechanical Engineering from Berhampur University and an M.Tech in Aerospace Engineering from IIT Kharagpur. Starting his career with DRDO, he later joined ISRO, where he played essential roles in significant space projects. His contributions include developing India’s cryogenic stage for the GSLV launch vehicle, which established India as a leader in space technology. He was a vital contributor to missions like Chandrayaan-2 and Chandrayaan-3, the Mars Orbiter Mission, and Aditya L1 (India's solar mission). In 2018, he was selected as one of 23 scientists to initiate India’s first human spaceflight program, the Gaganyaan Project. Currently, as the CEO of the Aerospace & Aviation Sector Skill Council, he collaborates with international aerospace companies to drive skill development in India's aerospace and aviation industries.",
+                            "Achievements": "Debadatta Mishra has been honored with numerous awards for his outstanding contributions to aerospace, including the GCPIT National HR Summit Award, the REPUTE Brand of the Year Award, and the Start-up Excellence Award from the Institution of Engineers India. He has delivered over 50 technical talks nationwide, sharing his insights on aerospace advancements. As a member of prominent aerospace organizations, he continues to influence the field through his leadership in ISRO projects and his current role in fostering skill development, significantly enhancing India's aerospace and defense sectors.",
+                            "Link": "debadatta-mishra"
+                        }
+}

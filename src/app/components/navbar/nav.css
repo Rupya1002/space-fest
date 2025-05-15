@@ -1,0 +1,116 @@
+.navbar {
+  width: 100vw;
+  background: rgba(10, 10, 10, 0.85);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  height: 80px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.navbar-title-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.navbar-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+}
+
+.navbar-subtitle {
+  font-size: 0.85rem;
+  color: #b3b3b3;
+  margin-top: 2px;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 18px;
+  transition: right 0.3s;
+}
+
+.navbar-links a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-family: 'Fira Mono', monospace;
+  transition: color 0.2s;
+}
+
+.navbar-links a:hover {
+  color: #00ffff;
+}
+
+/* Hamburger styles */
+.navbar-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 20;
+}
+
+.navbar-hamburger span {
+  display: block;
+  width: 26px;
+  height: 3px;
+  margin: 4px 0;
+  background: #fff;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+.navbar-hamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.navbar-hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+.navbar-hamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Responsive styles */
+@media (max-width: 1000px) {
+  .navbar-links {
+    position: fixed;
+    top: 80px;
+    right: -100vw;
+    flex-direction: column;
+    background: rgba(10, 10, 10, 0.98);
+    width: 220px;
+    height: calc(100vh - 80px);
+    padding: 32px 0;
+    gap: 24px;
+    align-items: flex-start;
+    box-shadow: -2px 0 12px #0008;
+    transition: right 0.3s;
+    z-index: 15;
+  }
+  .navbar-links.open {
+    right: 0;
+  }
+  .navbar-hamburger {
+    display: flex;
+  }
+}
