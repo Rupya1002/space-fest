@@ -1,9 +1,11 @@
 'use client';
 import React, { useEffect, useRef, useState } from "react";
 import "./contact.css";
+import Navbar from '../components/navbar/page';
 
 export default function ContactPage() {
   const canvasRef = useRef(null);
+  const videoRef = useRef(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -11,7 +13,6 @@ export default function ContactPage() {
     query: ''
   });
 
-  // Handle form input changes
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -19,11 +20,8 @@ export default function ContactPage() {
     });
   };
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // Store form data in local storage
     const existingQueries = JSON.parse(localStorage.getItem('queries') || '[]');
     const newQuery = {
       ...formData,
@@ -32,8 +30,6 @@ export default function ContactPage() {
     };
     existingQueries.push(newQuery);
     localStorage.setItem('queries', JSON.stringify(existingQueries));
-
-    // Reset form
     setFormData({
       name: '',
       email: '',
@@ -43,56 +39,84 @@ export default function ContactPage() {
     alert('Query submitted successfully!');
   };
 
-  // Animated background
   useEffect(() => {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
-    const particles = Array.from({ length: 80 }).map(() => ({
+    // Stars setup
+    const stars = Array.from({ length: 250 }).map(() => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      r: 1.5 + Math.random() * 3.5,
-      dx: (Math.random() - 0.5) * 0.3,
-      dy: (Math.random() - 0.5) * 0.3,
-      glow: 0.4 + Math.random() * 0.6,
-      hue: 260 + Math.random() * 60
+      radius: Math.random() * 1.5,
+      speed: Math.random() * 0.2 + 0.05
     }));
+
+    // Rocks setup
+    const rockImg = new window.Image();
+    rockImg.src = '/rock.png';
+
+    const rockCount = 12;
+    const rocks = Array.from({ length: rockCount }).map(() => {
+      const size = Math.random() * 60 + 40;
+      return {
+        x: Math.random() * width,
+        y: Math.random() * height,
+        size,
+        speedY: Math.random() * 0.4 + 0.2,
+        speedX: (Math.random() - 0.5) * 0.2,
+        rotation: Math.random() * Math.PI * 2,
+        rotationSpeed: (Math.random() - 0.5) * 0.01,
+        opacity: 0.7 + Math.random() * 0.3
+      };
+    });
+
+    function drawRocks() {
+      for (const rock of rocks) {
+        ctx.save();
+        ctx.globalAlpha = rock.opacity;
+        ctx.translate(rock.x + rock.size / 2, rock.y + rock.size / 2);
+        ctx.rotate(rock.rotation);
+        ctx.drawImage(
+          rockImg,
+          -rock.size * 1.5,
+          -rock.size * 1.5,
+          rock.size * 3,
+          rock.size * 3
+        );
+        ctx.restore();
+
+        rock.y += rock.speedY;
+        rock.x += rock.speedX;
+        rock.rotation += rock.rotationSpeed;
+
+        if (rock.y > height + rock.size * 1.5) {
+          rock.y = -rock.size * 3;
+          rock.x = Math.random() * width;
+        }
+        if (rock.x < -rock.size * 1.5) rock.x = width + rock.size * 1.5;
+        if (rock.x > width + rock.size * 1.5) rock.x = -rock.size * 1.5;
+      }
+    }
 
     function animate() {
       ctx.clearRect(0, 0, width, height);
 
-      const grad = ctx.createRadialGradient(
-        width / 2,
-        height / 2,
-        width * 0.1,
-        width / 2,
-        height / 2,
-        width * 0.7
-      );
-      grad.addColorStop(0, "rgba(180,140,255,0.18)");
-      grad.addColorStop(1, "rgba(30,20,60,0.7)");
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, width, height);
-
-      for (const p of particles) {
-        ctx.save();
+      ctx.fillStyle = 'white';
+      for (const star of stars) {
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.shadowColor = `hsla(${p.hue}, 90%, 80%, 1)`;
-        ctx.shadowBlur = 18 * p.glow;
-        ctx.fillStyle = `hsla(${p.hue}, 90%, 80%, 0.85)`;
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
         ctx.fill();
-        ctx.restore();
-
-        p.x += p.dx;
-        p.y += p.dy;
-        if (p.x < 0) p.x = width;
-        if (p.x > width) p.x = 0;
-        if (p.y < 0) p.y = height;
-        if (p.y > height) p.y = 0;
+        star.y += star.speed;
+        if (star.y > height) {
+          star.y = 0;
+          star.x = Math.random() * width;
+        }
       }
+
+      if (rockImg.complete) drawRocks();
 
       requestAnimationFrame(animate);
     }
@@ -103,97 +127,122 @@ export default function ContactPage() {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
     }
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    
+    window.addEventListener('resize', handleResize);
+    if (videoRef.current) {
+      videoRef.current.play();
+    }
+
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   return (
     <div className="contact-root">
+      <Navbar />
       <canvas ref={canvasRef} className="contact-bg-canvas" />
+   
       <div className="contact-container">
-        <div className="contact-left">
-          <div className="contact-left-bg">
-            <h1>Contact Us !</h1>
-            <p>
-              Please get in touch with us, in case you have any queries or questions.
-            </p>
-            <div className="contact-info">
-              <div className="contact-info-item">
-                <span className="contact-icon">📍</span>
-                <span>
-                  Kalpana Chawla Space Technology Cell, IIT Kharagpur
-                </span>
+        <div className="contact-wrapper">
+          <div className="contact-left">
+            <div className="contact-left-content">
+              <h1>Contact Us</h1>
+              <p>
+                Have questions about the National Studentspace Challenge? We are here to help!
+              </p>
+              <div className="contact-info">
+                <div className="contact-info-item">
+                  <i className="fas fa-map-marker-alt"></i>
+                  <span>
+                    Kalpana Chawla Space Technology Cell, IIT Kharagpur
+                  </span>
+                </div>
+                <div className="contact-info-item">
+                  <i className="fas fa-phone"></i>
+                  <span>
+                    +91-9359873722<br />
+                    +91-9350152471
+                  </span>
+                </div>
+                <div className="contact-info-item">
+                  <i className="fas fa-globe"></i>
+                  <span>spats.co.in</span>
+                </div>
+                <div className="contact-info-item">
+                  <i className="fas fa-envelope"></i>
+                  <span>spats.iitkgp@gmail.com</span>
+                </div>
               </div>
-              <div className="contact-info-item">
-                <span className="contact-icon">📞</span>
-                <span>
-                  +91-9359873722<br />
-                  +91-9350152471
-                </span>
+              <div className="contact-socials">
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+                  <i className="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+                  <i className="fab fa-instagram"></i>
+                </a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+                  <i className="fab fa-linkedin-in"></i>
+                </a>
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                  <i className="fab fa-twitter"></i>
+                </a>
               </div>
-              <div className="contact-info-item">
-                <span className="contact-icon">🌐</span>
-                <span>spats.co.in</span>
-              </div>
-              <div className="contact-info-item">
-                <span className="contact-icon">✉️</span>
-                <span>spats.iitkgp@gmail.com</span>
-              </div>
-            </div>
-            <div className="contact-socials">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-                <i className="fa-brands fa-facebook-f"></i>
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-                <i className="fa-brands fa-instagram"></i>
-              </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-                <i className="fa-brands fa-linkedin-in"></i>
-              </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-                <i className="fa-brands fa-twitter"></i>
-              </a>
             </div>
           </div>
-        </div>
-        <div className="contact-right">
-          <div className="contact-form-bg" />
-          <h1>Send Your Query !</h1>
-          <form className="contact-form" onSubmit={handleSubmit}>
-            <input 
-              type="text" 
-              name="name"
-              placeholder="Name" 
-              required 
-              value={formData.name}
-              onChange={handleChange}
-            />
-            <input 
-              type="email" 
-              name="email"
-              placeholder="Email address" 
-              required 
-              value={formData.email}
-              onChange={handleChange}
-            />
-            <input 
-              type="tel" 
-              name="phone"
-              placeholder="Phone number" 
-              required 
-              value={formData.phone}
-              onChange={handleChange}
-            />
-            <textarea 
-              name="query"
-              placeholder="Write your query" 
-              rows={4} 
-              required
-              value={formData.query}
-              onChange={handleChange}
-            />
-            <button type="submit">Submit</button>
-          </form>
+          <div className="contact-right">
+            <div className="contact-form-wrapper">
+              <h1>Send Your Query</h1>
+              <form
+                className="contact-form"
+                onSubmit={(e) => {
+                  handleSubmit(e);
+                  // Open submission file after submit
+                    window.open('/submission', '_blank');
+                }}
+              >
+                <div className="form-group">
+                  <input 
+                    type="text" 
+                    name="name"
+                    placeholder="Enter your name" 
+                    required 
+                    value={formData.name}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <input 
+                    type="email" 
+                    name="email"
+                    placeholder="Enter your email" 
+                    required 
+                    value={formData.email}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <input 
+                    type="tel" 
+                    name="phone"
+                    placeholder="Enter your phone number" 
+                    required 
+                    value={formData.phone}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <textarea 
+                    name="query"
+                    placeholder="Type your message here..." 
+                    rows={4} 
+                    required
+                    value={formData.query}
+                    onChange={handleChange}
+                  />
+                </div>
+                <button type="submit">Submit Query</button>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
       <link

@@ -1,4 +1,4 @@
-/* filepath: c:\Coding\next_js_task\my-next-app\src\app\contact\contact.css */
+
 * {
   margin: 0;
   padding: 0;
@@ -8,131 +8,170 @@
 .contact-root {
   min-height: 100vh;
   width: 100%;
-  overflow-x: hidden;
+  overflow: hidden;
   position: relative;
   font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
-  background: #1a1a2e;
+  background: #000000;
 }
 
 .contact-bg-canvas {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100% !important;
-  height: 100vh !important;
+  width: 100%;
+  height: 100vh;
   z-index: 0;
+  pointer-events: none;
+}
+
+.background-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  opacity: 0.5;
+  z-index: 1;
   pointer-events: none;
 }
 
 .contact-container {
   position: relative;
   z-index: 2;
+  min-height: 100vh;
   display: flex;
+  margin-top: 50px;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.contact-wrapper {
+  display: flex;
+  gap: 40px;
   max-width: 1200px;
-  padding: 2rem;
-  gap: 2rem;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .contact-left, .contact-right {
   flex: 1;
   min-width: 300px;
-  max-width: 500px;
+  background: url('/b1.jpg') no-repeat center center;
+  background-size: cover;
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 198, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 198, 255, 0.15);
 }
 
-.contact-left-bg {
-  background: linear-gradient(135deg, rgba(90,40,160,0.95) 0%, rgba(60,20,80,0.95) 100%);
-  border-radius: 24px;
-  padding: 2.5rem;
-  color: #fff;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-  height: 100%;
+.contact-left-content {
+  padding: 40px;
 }
 
 .contact-left h1 {
   font-size: 2.5rem;
   font-weight: 700;
-  margin-bottom: 1.5rem;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .contact-left p {
+  color: #fff;
   font-size: 1.1rem;
-  margin-bottom: 2rem;
-  color: #f3eaff;
+  margin-bottom: 30px;
   line-height: 1.6;
+  opacity: 0.9;
 }
 
 .contact-info {
-  margin-bottom: 2rem;
+  margin-bottom: 40px;
 }
 
 .contact-info-item {
   display: flex;
   align-items: flex-start;
-  gap: 1rem;
-  margin-bottom: 1.2rem;
+  gap: 15px;
+  margin-bottom: 20px;
+  color: #fff;
 }
 
-.contact-icon {
-  font-size: 1.3rem;
+.contact-info-item i {
+  color: #00c6ff;
+  font-size: 1.2rem;
+  margin-top: 4px;
+}
+
+.contact-info-item span {
+  font-size: 1rem;
+  line-height: 1.5;
+  opacity: 0.9;
 }
 
 .contact-socials {
   display: flex;
-  gap: 1.5rem;
+  gap: 20px;
 }
 
 .contact-socials a {
-  color: #fff;
-  font-size: 1.5rem;
-  transition: transform 0.3s, color 0.3s;
+  color: #00c6ff;
+  font-size: 1.3rem;
+  transition: all 0.3s ease;
 }
 
 .contact-socials a:hover {
-  color: #b48cff;
+  color: #b266ff;
   transform: translateY(-3px);
 }
 
-.contact-right {
-  position: relative;
-  border-radius: 24px;
-  padding: 2.5rem;
-  background: linear-gradient(135deg, rgba(40,30,60,0.95) 0%, rgba(80,60,120,0.95) 100%);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+.contact-form-wrapper {
+  padding: 40px;
 }
 
 .contact-right h1 {
-  color: #fff;
-  font-size: 2.2rem;
-  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  background: linear-gradient(135deg, #b266ff, #0072ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   text-align: center;
 }
 
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 20px;
+}
+
+.form-group {
+  position: relative;
 }
 
 .contact-form input,
 .contact-form textarea {
   width: 100%;
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(0, 198, 255, 0.2);
   border-radius: 12px;
-  padding: 1rem;
+  padding: 15px;
   color: #fff;
   font-size: 1rem;
-  transition: border-color 0.3s;
+  transition: all 0.3s ease;
 }
 
 .contact-form input:focus,
 .contact-form textarea:focus {
   outline: none;
-  border-color: #b48cff;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #00c6ff;
+  box-shadow: 0 0 20px rgba(0, 198, 255, 0.15);
 }
 
 .contact-form textarea {
@@ -141,54 +180,66 @@
 }
 
 .contact-form button {
-  background: linear-gradient(90deg, #a259ff 0%, #6a3cff 100%);
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
   color: #fff;
-  padding: 1rem 2rem;
   border: none;
   border-radius: 12px;
+  padding: 15px 30px;
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.3s, box-shadow 0.3s;
-  margin-top: 1rem;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .contact-form button:hover {
+  background: linear-gradient(135deg, #0072ff, #b266ff);
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(106, 60, 255, 0.3);
+  box-shadow: 0 5px 15px rgba(0, 198, 255, 0.3);
+}
+
+::placeholder {
+  color: rgba(255, 255, 255, 0.5);
 }
 
 @media (max-width: 900px) {
-  .contact-container {
+  .contact-wrapper {
     flex-direction: column;
-    padding: 1rem;
-    min-height: auto;
+    gap: 30px;
   }
 
   .contact-left, .contact-right {
     width: 100%;
-    max-width: 100%;
   }
 
-  .contact-left-bg, .contact-right {
-    padding: 1.5rem;
+  .contact-left-content,
+  .contact-form-wrapper {
+    padding: 30px;
   }
 
-  .contact-left h1, .contact-right h1 {
+  .contact-left h1,
+  .contact-right h1 {
     font-size: 2rem;
   }
 }
 
 @media (max-width: 480px) {
-  .contact-left h1, .contact-right h1 {
+  .contact-container {
+    padding: 20px;
+  }
+
+  .contact-left-content,
+  .contact-form-wrapper {
+    padding: 20px;
+  }
+
+  .contact-left h1,
+  .contact-right h1 {
     font-size: 1.8rem;
   }
 
   .contact-form button {
     width: 100%;
   }
-}
-
-::placeholder {
-  color: rgba(255,255,255,0.6);
 }

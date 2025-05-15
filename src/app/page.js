@@ -140,30 +140,38 @@ export default function HomePage() {
       <div className="content">
         <h1 className="title">
           {title.split('').map((char, i) => (
-            <span
-              key={i}
-              className={`smoke-letter ${isLeaving ? 'reverse' : ''}`}
-              style={{
-                animationDelay: `${i * textDelay}s`,
-                '--drift': `${(Math.random() - 0.5) * 16}px`
-              }}
-            >
-              {char}
-            </span>
+            char === ' ' ? (
+              <span key={i} style={{ display: 'inline-block', width: '0.6em' }}>&nbsp;</span>
+            ) : (
+              <span
+                key={i}
+                className={`smoke-letter ${isLeaving ? 'reverse' : ''}`}
+                style={{
+                  animationDelay: `${i * textDelay}s`,
+                  '--drift': `${(Math.random() - 0.5) * 16}px`
+                }}
+              >
+                {char}
+              </span>
+            )
           ))}
         </h1>
         <h2 className="tagline" style={{ marginTop: 20 }}>
           {tagline.split('').map((char, i) => (
-            <span
-              key={i}
-              className={`smoke-letter ${isLeaving ? 'reverse' : ''}`}
-              style={{
-                animationDelay: `${taglineDelay + i * textDelay}s`,
-                '--drift': `${(Math.random() - 0.5) * 16}px`
-              }}
-            >
-              {char}
-            </span>
+            char === ' ' ? (
+              <span key={i} style={{ display: 'inline-block', width: '0.6em' }}>&nbsp;</span>
+            ) : (
+              <span
+                key={i}
+                className={`smoke-letter ${isLeaving ? 'reverse' : ''}`}
+                style={{
+                  animationDelay: `${taglineDelay + i * textDelay}s`,
+                  '--drift': `${(Math.random() - 0.5) * 16}px`
+                }}
+              >
+                {char}
+              </span>
+            )
           ))}
         </h2>
         <h3

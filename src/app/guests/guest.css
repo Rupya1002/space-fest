@@ -6,158 +6,27 @@
   position: relative;
 }
 
-/* Modern animated background */
 body {
   background: linear-gradient(120deg, #000000 0%, #000000 100%);
   min-height: 100vh;
   animation: bgMove 16s linear infinite alternate;
 }
+
 @keyframes bgMove {
   0% { background-position: 0% 50%; }
   100% { background-position: 100% 50%; }
 }
 
-#background-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0.7;
-  filter: blur(2px) brightness(0.9);
-}
-
-/* Card fly-out/fly-in animation with blur and scale */
-.guest-card.animating {
-  pointer-events: none;
-}
-
-.guest-card.fly-out-left,
-.guest-card.fly-out-right {
-  filter: blur(8px) brightness(1.2) contrast(1.2);
-  will-change: transform, filter, opacity;
-}
-
-.guest-card.fly-in-left,
-.guest-card.fly-in-right {
-  filter: blur(8px) brightness(1.2) contrast(1.2);
-  will-change: transform, filter, opacity;
-}
-
-.guest-card:not(.animating) {
-  filter: none;
-  transition: filter 0.3s cubic-bezier(.7,0,.3,1);
-}
-
-/* Animate the guest image separately for extra clarity */
-.guest-card .guest-image {
-  transition: opacity 0.35s cubic-bezier(.7,0,.3,1);
-  opacity: 1;
-}
-
-.guest-card.fly-out-left .guest-image,
-.guest-card.fly-out-right .guest-image {
-  opacity: 0;
-}
-
-.guest-card.fly-in-left .guest-image,
-.guest-card.fly-in-right .guest-image {
-  opacity: 0;
-}
-
-.guest-card.animating.fly-in-left .guest-image,
-.guest-card.animating.fly-in-right .guest-image {
-  animation: fadeInImage 0.32s 0.18s forwards;
-}
-
-@keyframes fadeInImage {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* Stronger static effect during transition */
-.noise-overlay {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 3;
-  background: url('/noise.png') center center/cover repeat;
-  opacity: 0;
-  transition: opacity 0.12s cubic-bezier(.7,0,.3,1);
-  mix-blend-mode: screen;
-  animation: noiseMove 0.6s steps(2) infinite;
-}
-
-.guest-card.animating .noise-overlay {
-  opacity: 0.7;
-}
-
-@keyframes noiseMove {
-  0% { background-position: 0 0; }
-  100% { background-position: 120px 80px; }
-}
-
-/* ...existing code... */
-
-.guest-card.fly-out-left {
-  animation: flyOutLeft 1.2s forwards cubic-bezier(.7,0,.3,1);
-  opacity: 0;
-}
-.guest-card.fly-out-right {
-  animation: flyOutRight 1.2s forwards cubic-bezier(.7,0,.3,1);
-  opacity: 0;
-}
-.guest-card.fly-in-left {
-  animation: flyInLeft 1.2s forwards cubic-bezier(.7,0,.3,1);
-}
-.guest-card.fly-in-right {
-  animation: flyInRight 1.2s forwards cubic-bezier(.7,0,.3,1);
-}
-
-/* ...rest of your CSS remains unchanged... */
-
-@keyframes flyOutLeft {
-  to {
-    transform: translateX(-120vw) scale(1.08) rotateZ(-10deg);
-    opacity: 0;
-  }
-}
-@keyframes flyOutRight {
-  to {
-    transform: translateX(120vw) scale(1.08) rotateZ(10deg);
-    opacity: 0;
-  }
-}
-@keyframes flyInLeft {
-  from {
-    transform: translateX(-120vw) scale(1.08) rotateZ(-10deg);
-    opacity: 0;
-  }
-  to {
-    transform: none;
-    opacity: 1;
-  }
-}
-@keyframes flyInRight {
-  from {
-    transform: translateX(120vw) scale(1.08) rotateZ(10deg);
-    opacity: 0;
-  }
-  to {
-    transform: none;
-    opacity: 1;
-  }
-}
-
 .guests-title {
   text-align: center;
   font-size: 2.2rem;
-  font-weight: bold;
-  margin-bottom: 40px;
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1.1;
+  text-shadow: 0 4px 24px #00c6ff55, 0 2px 8px #b266ff55;
+  letter-spacing: 0.12em;
+  margin-top:50px ;
+  margin-bottom: 30px;
   letter-spacing: 0.08em;
   background: linear-gradient(90deg, #00c6ff, #0072ff, #b266ff);
   -webkit-background-clip: text;
@@ -179,13 +48,6 @@ body {
   max-width: 95vw;
   min-height: 320px;
   overflow: hidden;
-  transition:
-    width 0.4s cubic-bezier(.4,0,.2,1),
-    max-width 0.4s cubic-bezier(.4,0,.2,1),
-    min-height 0.4s cubic-bezier(.4,0,.2,1),
-    height 0.4s cubic-bezier(.4,0,.2,1),
-    box-shadow 0.2s,
-    border-color 0.2s;
   display: flex;
   flex-direction: column;
   border: 2px solid transparent;
@@ -193,6 +55,19 @@ body {
   perspective: 800px;
   will-change: transform, width, height;
   margin: 0 auto;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.guest-card.slide-left {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.guest-card.slide-right {
+  transform: translateX(100%);
+  opacity: 0;
 }
 
 .guest-card.expanded {
@@ -211,6 +86,10 @@ body {
 }
 
 .guest-image-wrapper {
+  position: relative;
+  overflow: hidden;
+  --move-x: 0px;
+  --move-y: 0px;
   width: 320px;
   min-width: 180px;
   height: auto;
@@ -218,9 +97,15 @@ body {
   display: flex;
   align-items: stretch;
   justify-content: center;
-  overflow: hidden;
   border-right: 2px solid #222;
   transition: width 0.4s cubic-bezier(.4,0,.2,1);
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 .guest-card.expanded .guest-image-wrapper {
@@ -229,11 +114,19 @@ body {
 }
 
 .guest-image {
-  width: 100%;
-  height: 100%;
+  width: calc(100% + 40px);
+  height: calc(100% + 40px);
+  margin: -20px;
   object-fit: cover;
   display: block;
-  transition: all 0.4s cubic-bezier(.4,0,.2,1);
+  transition: transform 0.4s cubic-bezier(.4,0,.2,1);
+  will-change: transform;
+}
+
+.guest-card.slide-left .guest-image,
+.guest-card.slide-right .guest-image {
+  transform: scale(1.2);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .guest-content {
@@ -293,6 +186,19 @@ body {
   margin: 6px 0 0 0;
 }
 
+.noise-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+  background: url('/noise.png') center center/cover repeat;
+  opacity: 0;
+  transition: opacity 0.12s cubic-bezier(.7,0,.3,1);
+  mix-blend-mode: screen;
+}
+
 .smoke-overlay {
   position: absolute;
   inset: 0;
@@ -329,7 +235,17 @@ body {
   box-shadow: 0 4px 16px #00c6ff55;
 }
 
-/* Responsive: stack vertically on small screens */
+.galaxy-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
 @media (max-width: 900px) {
   .guest-card {
     width: 98vw;
@@ -355,16 +271,4 @@ body {
     height: 100%;
     width: 100%;
   }
-}
-/* ...existing code... */
-
-.galaxy-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  opacity: 0.7;
 }

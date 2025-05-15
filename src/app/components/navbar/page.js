@@ -1,21 +1,28 @@
-import { useState } from 'react';
-import Link from 'next/link';
-import './nav.css';
 'use client';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import './nav.css';
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
 
-  const handleGuestClick = () => {
-    window.location.href = '/guests';
+  const handleGuestClick = (e) => {
+    e.preventDefault();
+    router.push('/guests');
   };
 
-  const handleContactClick = () => {
-    window.location.href = '/contact';
+  const handleContactClick = (e) => {
+    e.preventDefault();
+    router.push('/contact');
   };
 
   return (
     <nav className="navbar">
       <div className="navbar-left">
+        <div className="logo-container">
+          <img src="/logo.webp" alt="NSSC Logo" className="navbar-logo" />
+        </div>
         <div className="navbar-title-group">
           <div className="navbar-title">NATIONAL STUDENTSPACE CHALLENGE</div>
           <div className="navbar-subtitle">
@@ -26,14 +33,14 @@ export default function Navbar() {
       <div className={`navbar-links${open ? ' open' : ''}`}>
         <a href="#">About</a>
         <a href="#">Events</a>
-        <a href="#" onClick={handleGuestClick}>Guests</a>
+        <a href="/guests" onClick={handleGuestClick}>Guests</a>
         <a href="#">Lectures</a>
-        <a href="#">Talk Show</a>
+     
         <a href="#">Gallery</a>
         <a href="#">Schedule</a>
         <a href="#">Accomodation</a>
         <a href="#">Team</a>
-        <a href="#" onClick={handleContactClick}>Contact</a>
+        <a href="/contact" onClick={handleContactClick}>Contact</a>
         <a href="#">Login</a>
       </div>
       <button

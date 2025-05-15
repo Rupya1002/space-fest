@@ -1,0 +1,203 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.submission-root {
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+  background: #000000;
+}
+
+.submission-bg-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.submission-container {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  gap: 20px;
+}
+
+.submission-card {
+  background: url('/b1.jpg') no-repeat center center;
+  background-size: cover;
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 198, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 198, 255, 0.15);
+  min-width: 340px;
+  max-width: 420px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submission-card-content {
+  padding: 48px 32px 40px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.success-icon {
+  font-size: 4rem;
+  color: #00c6ff;
+  margin-bottom: 18px;
+  text-shadow: 0 0 18px #00c6ff88;
+}
+
+.submission-card h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.submission-card p {
+  color: #fff;
+  font-size: 1.1rem;
+  margin-bottom: 32px;
+  line-height: 1.6;
+  text-align: center;
+  opacity: 0.95;
+}
+
+.submission-btn {
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 36px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 5px 15px rgba(0, 198, 255, 0.15);
+}
+
+.submission-btn:hover {
+  background: linear-gradient(135deg, #0072ff, #b266ff);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 198, 255, 0.25);
+}
+
+.astronaut-wrapper {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  margin-left: -60px;
+  transform: translateX(-20%);
+}
+
+.astronaut-glow {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+    left: -220px;
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 198, 255, 0.2),
+    rgba(178, 102, 255, 0.2),
+    transparent 70%
+  );
+  border-radius: 50%;
+  filter: blur(20px);
+  animation: glowPulse 3s infinite alternate;
+}
+
+.astronaut-img {
+  position: absolute;
+  width: 180px;
+  left: -220px;
+  height: 180px;
+  object-fit: contain;
+  animation: floatAstronaut 6s ease-in-out infinite;
+}
+
+@keyframes floatAstronaut {
+  0%, 100% {
+    transform: translateY(-15px) rotate(-5deg);
+  }
+  50% {
+    transform: translateY(15px) rotate(5deg);
+  }
+}
+
+@keyframes glowPulse {
+  0% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+@media (max-width: 968px) {
+  .submission-container {
+    flex-direction: column;
+    padding: 20px;
+    gap: 10px;
+  }
+
+  .astronaut-wrapper {
+    margin: 0;
+    transform: none;
+    width: 150px;
+    height: 150px;
+  }
+
+  .astronaut-glow,
+  .astronaut-img {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+@media (max-width: 600px) {
+  .submission-card-content {
+    padding: 28px 10px 24px 10px;
+  }
+  
+  .submission-card {
+    min-width: 0;
+    max-width: 98vw;
+  }
+
+  .astronaut-wrapper {
+    width: 120px;
+    height: 120px;
+  }
+
+  .astronaut-glow,
+  .astronaut-img {
+    width: 120px;
+    height: 120px;
+  }
+}

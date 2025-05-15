@@ -3,7 +3,7 @@ import guestsData from './guests.json';
 import './guest.css';
 import { useEffect, useRef, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-
+import Navbar from '../components/navbar/page';
 export default function GuestsPage() {
   const cardRef = useRef(null);
   const detailsRef = useRef(null);
@@ -11,58 +11,44 @@ export default function GuestsPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [expanded, setExpanded] = useState(false);
-
-  // Animation states
-  const [animating, setAnimating] = useState(false);
-  const [animationDirection, setAnimationDirection] = useState(null); // 'left' or 'right'
-  const [pendingIdx, setPendingIdx] = useState(null);
+  const [isSliding, setIsSliding] = useState(false);
+  const [slideDirection, setSlideDirection] = useState(null);
+  const [imagePosition, setImagePosition] = useState({ x: 0.5, y: 0.5 });
 
   const guestKeys = Object.keys(guestsData);
   const currentKey = searchParams.get('guest') || guestKeys[0];
   const idx = guestKeys.indexOf(currentKey);
   const guest = guestsData[currentKey];
 
-  // Navigation handlers with animation
-  const goTo = (newIdx) => {
-    if (animating || newIdx < 0 || newIdx >= guestKeys.length) return;
-    setAnimating(true);
-    setAnimationDirection(newIdx > idx ? 'right' : 'left');
-    setPendingIdx(newIdx);
+  const handleImageMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    setImagePosition({ x, y });
   };
 
-  // Handle animation end and update guest
-  useEffect(() => {
-    if (!animating || pendingIdx === null) return;
-    const timeout = setTimeout(() => {
-      router.push(`?guest=${guestKeys[pendingIdx]}`);
+  const handleImageLeave = () => {
+    setImagePosition({ x: 0.5, y: 0.5 });
+  };
+
+  const goTo = (newIdx) => {
+    if (newIdx < 0 || newIdx >= guestKeys.length || isSliding) return;
+    
+    setIsSliding(true);
+    setSlideDirection(newIdx > idx ? 'left' : 'right');
+    
+    setTimeout(() => {
+      router.push(`?guest=${guestKeys[newIdx]}`);
       setExpanded(false);
-      setAnimationDirection(animationDirection === 'right' ? 'left' : 'right');
-      setAnimating(false);
-      setPendingIdx(null);
-    }, 1200); // <-- increased duration for clearer transition
-    return () => clearTimeout(timeout);
-    // eslint-disable-next-line
-  }, [animating, pendingIdx]);
+      setImagePosition({ x: 0.5, y: 0.5 });
+      
+      setTimeout(() => {
+        setIsSliding(false);
+        setSlideDirection(null);
+      }, 600);
+    }, 300);
+  };
 
-  // When guest changes, trigger fly-in animation
-  useEffect(() => {
-    if (!animating && animationDirection) {
-      setAnimating(true);
-      setTimeout(() => setAnimating(false), 1200); // <-- match duration
-    }
-    // eslint-disable-next-line
-  }, [currentKey]);
-
-  // Determine card animation class
-  let cardClass = "guest-card";
-  if (animating && pendingIdx !== null) {
-    cardClass += " animating " + (animationDirection === 'right' ? "fly-out-right" : "fly-out-left");
-  } else if (animating && pendingIdx === null && animationDirection) {
-    cardClass += " animating " + (animationDirection === 'right' ? "fly-in-right" : "fly-in-left");
-  }
-  if (expanded) cardClass += " expanded";
-
-  // 3D tilt effect
   useEffect(() => {
     const card = cardRef.current;
     if (!card || expanded) return;
@@ -87,7 +73,6 @@ export default function GuestsPage() {
     };
   }, [currentKey, expanded]);
 
-  // Smoke opacity on scroll
   useEffect(() => {
     const card = cardRef.current;
     if (!card) return;
@@ -108,7 +93,6 @@ export default function GuestsPage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [currentKey]);
 
-  // Listen for details open/close
   useEffect(() => {
     const details = detailsRef.current;
     if (!details) return;
@@ -117,7 +101,6 @@ export default function GuestsPage() {
     return () => details.removeEventListener('toggle', handleToggle);
   }, [currentKey]);
 
-  // --- Animated cosmic/galaxy background (stars + rocks) ---
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -125,7 +108,6 @@ export default function GuestsPage() {
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
-    // --- Stars ---
     const stars = Array.from({ length: 250 }).map(() => ({
       x: Math.random() * width,
       y: Math.random() * height,
@@ -133,7 +115,6 @@ export default function GuestsPage() {
       speed: Math.random() * 0.2 + 0.05,
     }));
 
-    // --- Rocks ---
     const rockImg = new window.Image();
     rockImg.src = '/rock.png';
 
@@ -206,28 +187,45 @@ export default function GuestsPage() {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
     }
-    window.addEventListener('resize', handleResize);
 
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  let cardClass = "guest-card";
+  if (expanded) cardClass += " expanded";
+  if (isSliding && slideDirection) cardClass += ` slide-${slideDirection}`;
 
   return (
     <div className="guests-container">
+      <Navbar />
       <canvas ref={canvasRef} className="galaxy-canvas" />
       <h1 className="guests-title">Our Esteemed Guests</h1>
-      <div className="guests-grid" style={{justifyContent: 'center'}}>
-        <div
-          className={cardClass}
-          ref={cardRef}
-        >
+      <div className="guests-grid" style={{ justifyContent: 'center' }}>
+        <div className={cardClass} ref={cardRef}>
           <div className="noise-overlay" />
           <div className="guest-card-flex">
-            <div className="guest-image-wrapper">
-              <img src={guest.Image} alt={guest.Title} className="guest-image" />
+            <div 
+              className="guest-image-wrapper" 
+              onMouseMove={handleImageMove}
+              onMouseLeave={handleImageLeave}
+              style={{
+                '--move-x': `${(imagePosition.x - 0.5) * 20}px`,
+                '--move-y': `${(imagePosition.y - 0.5) * 20}px`
+              }}
+            >
+              <div className="image-container">
+                <img 
+                  src={guest.Image} 
+                  alt={guest.Title} 
+                  className="guest-image" 
+                  style={{
+                    transform: isSliding ? 'scale(1.2)' : `translate(var(--move-x), var(--move-y))`
+                  }}
+                />
+              </div>
             </div>
-            <div className="guest-content" style={{position: "relative"}}>
+            <div className="guest-content" style={{ position: "relative" }}>
               <div className="smoke-overlay" />
               <h2 className="guest-name guest-3d-text">{guest.Title}</h2>
               <h3 className="guest-designation">{guest.Designation}</h3>
@@ -246,9 +244,21 @@ export default function GuestsPage() {
           </div>
         </div>
       </div>
-      <div style={{display: 'flex', justifyContent: 'center', gap: 24, marginTop: 32}}>
-        <button className="btn" onClick={() => goTo(idx - 1)} disabled={idx === 0 || animating}>Previous</button>
-        <button className="btn" onClick={() => goTo(idx + 1)} disabled={idx === guestKeys.length - 1 || animating}>Next</button>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 24, marginTop: 32 }}>
+        <button 
+          className="btn" 
+          onClick={() => goTo(idx - 1)} 
+          disabled={idx === 0 || isSliding}
+        >
+          Previous
+        </button>
+        <button 
+          className="btn" 
+          onClick={() => goTo(idx + 1)} 
+          disabled={idx === guestKeys.length - 1 || isSliding}
+        >
+          Next
+        </button>
       </div>
     </div>
   );
