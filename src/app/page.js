@@ -12,21 +12,37 @@ export default function HomePage() {
   const canvasRef = useRef(null);
   const router = useRouter();
   const [isLeaving, setIsLeaving] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
 
   // Animation delays
   const textDelay = 0.06;
-  const taglineDelay = title.length * textDelay + 1.2; // Wait for title smoke to finish
+  const taglineDelay = title.length * textDelay + 1.2;
   const themeLineDelay = taglineDelay + tagline.length * textDelay + 0.8;
 
+  // Deterministic pseudo-random function
+  function pseudoRandom(seed) {
+    const x = Math.sin(seed) * 10000;
+    return x - Math.floor(x);
+  }
+
+  function getDrift(index) {
+    return (pseudoRandom(index) - 0.5) * 16;
+  }
+
   useEffect(() => {
-    setIsLeaving(false); // Reset smoke animation state on mount
+    setHasMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hasMounted) return;
+
+    setIsLeaving(false);
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
-    // --- Stars ---
     const stars = Array.from({ length: 250 }).map(() => ({
       x: Math.random() * width,
       y: Math.random() * height,
@@ -34,7 +50,6 @@ export default function HomePage() {
       speed: Math.random() * 0.2 + 0.05
     }));
 
-    // --- Rocks ---
     const rockImg = new window.Image();
     rockImg.src = '/rock.png';
 
@@ -110,36 +125,46 @@ export default function HomePage() {
     window.addEventListener('resize', handleResize);
 
     if (videoRef.current) {
-      videoRef.current.play();
+      videoRef.current.play().catch((e) => {
+        // Ignore play interruption errors due to background tab or power saving
+        if (
+          e.name !== 'AbortError' &&
+          !e.message.includes('background media was paused to save power')
+        ) {
+          console.error(e);
+        }
+      });
       videoRef.current.playbackRate = 1;
     }
 
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [hasMounted]);
 
   const handleNavigation = (path) => {
     setIsLeaving(true);
     setTimeout(() => {
       router.push(path);
-    }, 1500); // Match the animation duration + buffer
+    }, 1500);
   };
 
   return (
     <div className="page-container">
       <Navbar />
-      <canvas ref={canvasRef} className="galaxy-canvas" />
-      <video
-        ref={videoRef}
-        src="/smoke.mp4"
-        muted
-        autoPlay
-        className="background-video"
-      />
+      {hasMounted && <canvas ref={canvasRef} className="galaxy-canvas" />}
+      {hasMounted && (
+        <video
+          ref={videoRef}
+          src="/smoke.mp4"
+          muted
+          autoPlay
+          className="background-video"
+        />
+      )}
       <div className="content">
         <h1 className="title">
-          {title.split('').map((char, i) => (
+          {title.split('').map((char, i) =>
             char === ' ' ? (
               <span key={i} style={{ display: 'inline-block', width: '0.6em' }}>&nbsp;</span>
             ) : (
@@ -147,32 +172,33 @@ export default function HomePage() {
                 key={i}
                 className={`smoke-letter ${isLeaving ? 'reverse' : ''}`}
                 style={{
-                  animationDelay: `${i * textDelay}s`,
-                  '--drift': `${(Math.random() - 0.5) * 16}px`
+                  '--drift': `${getDrift(i)}px`,
+                  animationDelay: `${i * textDelay}s`
+                  
                 }}
               >
                 {char}
               </span>
             )
-          ))}
+          )}
         </h1>
         <h2 className="tagline" style={{ marginTop: 20 }}>
-          {tagline.split('').map((char, i) => (
+          {tagline.split('').map((char, i) =>
             char === ' ' ? (
               <span key={i} style={{ display: 'inline-block', width: '0.6em' }}>&nbsp;</span>
             ) : (
               <span
                 key={i}
                 className={`smoke-letter ${isLeaving ? 'reverse' : ''}`}
-                style={{
-                  animationDelay: `${taglineDelay + i * textDelay}s`,
-                  '--drift': `${(Math.random() - 0.5) * 16}px`
+                style={{  '--drift': `${getDrift(i + title.length)}px`,
+                  animationDelay: `${taglineDelay + i * textDelay}s`
+                
                 }}
               >
                 {char}
               </span>
             )
-          ))}
+          )}
         </h2>
         <h3
           className="theme-line"

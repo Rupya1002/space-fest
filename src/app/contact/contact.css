@@ -76,7 +76,7 @@
   font-weight: 700;
   margin-bottom: 20px;
   background: linear-gradient(135deg, #00c6ff, #0072ff);
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
@@ -138,7 +138,7 @@
   font-weight: 700;
   margin-bottom: 30px;
   background: linear-gradient(135deg, #b266ff, #0072ff);
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   text-align: center;

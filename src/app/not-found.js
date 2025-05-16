@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import "./not-found.css";
-
+import Image from "next/image";
 export default function NotFoundPage() {
   const canvasRef = useRef(null);
   const router = useRouter();
@@ -112,7 +112,14 @@ export default function NotFoundPage() {
         </div>
         <div className="astronaut-wrapper">
           <div className="astronaut-glow"></div>
-          <img src="/astronaut.png" alt="floating astronaut" className="astronaut-img" />
+         <Image
+  src="/astronaut.png"
+  alt="floating astronaut"
+  className="astronaut-img"
+  width={500}      // Set width and height as needed
+  height={500}
+/>
+
         </div>
       </div>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />

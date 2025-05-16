@@ -1,27 +1,31 @@
 'use client';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import './nav.css';
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
+  const [isMounted, setIsMounted] = useState(false); // <== Prevent hydration mismatch
 
-  const handleGuestClick = (e) => {
-    e.preventDefault();
-    router.push('/guests');
-  };
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
-  const handleContactClick = (e) => {
-    e.preventDefault();
-    router.push('/contact');
-  };
+  if (!isMounted) return null; // Avoid rendering until mounted on client
 
   return (
     <nav className="navbar">
       <div className="navbar-left">
         <div className="logo-container">
-          <img src="/logo.webp" alt="NSSC Logo" className="navbar-logo" />
+          <Image
+            src="/logo.jpg"
+            alt="NSSC Logo"
+            className="navbar-logo"
+            width={100}
+            height={50}
+          />
         </div>
         <div className="navbar-title-group">
           <div className="navbar-title">NATIONAL STUDENTSPACE CHALLENGE</div>
@@ -30,19 +34,20 @@ export default function Navbar() {
           </div>
         </div>
       </div>
+
       <div className={`navbar-links${open ? ' open' : ''}`}>
-        <a href="#">About</a>
-        <a href="#">Events</a>
-        <a href="/guests" onClick={handleGuestClick}>Guests</a>
-        <a href="#">Lectures</a>
-     
-        <a href="#">Gallery</a>
-        <a href="#">Schedule</a>
-        <a href="#">Accomodation</a>
-        <a href="#">Team</a>
-        <a href="/contact" onClick={handleContactClick}>Contact</a>
-        <a href="#">Login</a>
+        <Link href="#">About</Link>
+        <Link href="#">Events</Link>
+        <Link href="/guests">Guests</Link>
+        <Link href="#">Lectures</Link>
+        <Link href="#">Gallery</Link>
+        <Link href="#">Schedule</Link>
+        <Link href="#">Accomodation</Link>
+        <Link href="#">Team</Link>
+        <Link href="/contact">Contact</Link>
+        <Link href="#">Login</Link>
       </div>
+
       <button
         className={`navbar-hamburger${open ? ' open' : ''}`}
         onClick={() => setOpen(!open)}

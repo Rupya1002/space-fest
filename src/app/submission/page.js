@@ -2,6 +2,7 @@
 import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import "./submission.css";
+import Image from "next/image";
 import Navbar from '../components/navbar/page';
 export default function SubmissionPage() {
   const canvasRef = useRef(null);
@@ -113,7 +114,14 @@ export default function SubmissionPage() {
         </div>
         <div className="astronaut-wrapper">
           <div className="astronaut-glow"></div>
-          <img src="/astronaut.png" alt="floating astronaut" className="astronaut-img" />
+        <Image
+  src="/astronaut.png"
+  alt="floating astronaut"
+  className="astronaut-img"
+  width={500}      
+  height={500}
+/>
+
         </div>
       </div>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />

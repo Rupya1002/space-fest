@@ -79,12 +79,14 @@
   font-size: 1.15rem;
   font-weight: 700;
   letter-spacing: 0.04em;
-  color: #fff;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  background: linear-gradient(135deg, #fff, #b3e0ff);
-  -webkit-background-clip: text;
+  background: linear-gradient(135deg, #fff, #b3b3b3);
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: inline-block; /* required for background-clip to apply */
 }
+
+
 
 .navbar-subtitle {
   font-size: 0.85rem;

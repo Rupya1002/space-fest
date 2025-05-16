@@ -1,9 +1,11 @@
 "use client"
 import guestsData from './guests.json';
+import Image from 'next/image';
 import './guest.css';
 import { useEffect, useRef, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Navbar from '../components/navbar/page';
+
 export default function GuestsPage() {
   const cardRef = useRef(null);
   const detailsRef = useRef(null);
@@ -14,17 +16,39 @@ export default function GuestsPage() {
   const [isSliding, setIsSliding] = useState(false);
   const [slideDirection, setSlideDirection] = useState(null);
   const [imagePosition, setImagePosition] = useState({ x: 0.5, y: 0.5 });
+  // Dimensions state with safe initialization
+  const [dimensions, setDimensions] = useState({
+    width: typeof window !== 'undefined' ? window.innerWidth : 1200,
+    height: typeof window !== 'undefined' ? window.innerHeight : 800
+  });
 
   const guestKeys = Object.keys(guestsData);
   const currentKey = searchParams.get('guest') || guestKeys[0];
   const idx = guestKeys.indexOf(currentKey);
   const guest = guestsData[currentKey];
 
+  // Optimized image move handler with null check and fix
   const handleImageMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
-    setImagePosition({ x, y });
+    if (!e || !e.currentTarget) return;
+
+    const target = e.currentTarget;  // Capture synchronously
+    const clientX = e.clientX;
+    const clientY = e.clientY;
+
+    requestAnimationFrame(() => {
+      try {
+        const rect = target.getBoundingClientRect();
+        if (!rect) return;
+
+        const x = (clientX - rect.left) / rect.width;
+        const y = (clientY - rect.top) / rect.height;
+        setImagePosition({ x, y });
+      } catch (error) {
+        console.error("Error in handleImageMove:", error);
+        // Fallback to center position on error
+        setImagePosition({ x: 0.5, y: 0.5 });
+      }
+    });
   };
 
   const handleImageLeave = () => {
@@ -33,15 +57,13 @@ export default function GuestsPage() {
 
   const goTo = (newIdx) => {
     if (newIdx < 0 || newIdx >= guestKeys.length || isSliding) return;
-    
+
     setIsSliding(true);
     setSlideDirection(newIdx > idx ? 'left' : 'right');
-    
     setTimeout(() => {
       router.push(`?guest=${guestKeys[newIdx]}`);
-      setExpanded(false);
       setImagePosition({ x: 0.5, y: 0.5 });
-      
+
       setTimeout(() => {
         setIsSliding(false);
         setSlideDirection(null);
@@ -49,50 +71,101 @@ export default function GuestsPage() {
     }, 300);
   };
 
+  // Improved 3D card effect with proper null checking
   useEffect(() => {
     const card = cardRef.current;
     if (!card || expanded) return;
+
+    let rafId = null;
+    let isHovering = false;
+
     const handleMouseMove = (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const rotateX = ((y - centerY) / centerY) * 10;
-      const rotateY = ((x - centerX) / centerX) * -10;
-      card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.04)`;
+      if (!e || !card) return;
+      isHovering = true;
+
+      if (rafId) return; // Skip if a frame is already scheduled
+
+      rafId = requestAnimationFrame(() => {
+        try {
+          const rect = card.getBoundingClientRect();
+          if (!rect) return;
+
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+
+          // Make rotation more subtle for mobile
+          const isMobile = dimensions.width < 768;
+          const multiplier = isMobile ? 5 : 10;
+
+          const rotateX = ((y - centerY) / centerY) * multiplier;
+          const rotateY = ((x - centerX) / centerX) * -multiplier;
+
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.04)`;
+          card.style.transition = isHovering ? 'transform 0.05s ease-out' : 'transform 0.3s ease-out';
+        } catch (error) {
+          console.error("Error in 3D card effect:", error);
+        }
+
+        rafId = null;
+      });
     };
+
     const handleMouseLeave = () => {
-      card.style.transform = '';
+      isHovering = false;
+      if (card) {
+        card.style.transform = '';
+        card.style.transition = 'transform 0.3s ease-out';
+      }
     };
+
     card.addEventListener('mousemove', handleMouseMove);
     card.addEventListener('mouseleave', handleMouseLeave);
+
     return () => {
+      if (rafId) cancelAnimationFrame(rafId);
       card.removeEventListener('mousemove', handleMouseMove);
       card.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, [currentKey, expanded]);
+  }, [currentKey, expanded, dimensions.width]);
 
+  // Smoke effect based on scroll position with error handling
   useEffect(() => {
     const card = cardRef.current;
     if (!card) return;
+
     const smoke = card.querySelector('.smoke-overlay');
+    if (!smoke) return;
+
     const handleScroll = () => {
-      const rect = card.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      const cardMiddle = rect.top + rect.height / 2;
-      const viewportMiddle = windowHeight / 2;
-      const distance = Math.abs(cardMiddle - viewportMiddle);
-      const maxDistance = windowHeight * 0.5;
-      let opacity = Math.min(1, distance / maxDistance);
-      opacity = Math.max(0.15, Math.min(1, opacity));
-      if (smoke) smoke.style.opacity = opacity;
+      requestAnimationFrame(() => {
+        try {
+          const rect = card.getBoundingClientRect();
+          if (!rect) return;
+
+          const windowHeight = window.innerHeight || 800;
+          const cardMiddle = rect.top + rect.height / 2;
+          const viewportMiddle = windowHeight / 2;
+          const distance = Math.abs(cardMiddle - viewportMiddle);
+          const maxDistance = windowHeight * 0.5;
+          let opacity = Math.min(1, distance / maxDistance);
+          opacity = Math.max(0.15, Math.min(1, opacity));
+
+          smoke.style.opacity = opacity;
+        } catch (error) {
+          console.error("Error in scroll effect:", error);
+        }
+      });
     };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
+    handleScroll(); // Initialize effect
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, [currentKey]);
 
+  // Details toggle handler
   useEffect(() => {
     const details = detailsRef.current;
     if (!details) return;
@@ -101,14 +174,59 @@ export default function GuestsPage() {
     return () => details.removeEventListener('toggle', handleToggle);
   }, [currentKey]);
 
+  // Responsive dimensions tracking with defensive programming
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const handleResize = () => {
+      setDimensions({
+        width: window.innerWidth || 1200,
+        height: window.innerHeight || 800
+      });
+    };
+
+    // Initialize size
+    handleResize();
+
+    // Add event listener with a debounce to avoid excessive updates
+    let resizeTimer;
+    const debouncedResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(handleResize, 100);
+    };
+
+    window.addEventListener('resize', debouncedResize);
+
+    return () => {
+      clearTimeout(resizeTimer);
+      window.removeEventListener('resize', debouncedResize);
+    };
+  }, []);
+
+  // Canvas background animation with error handling
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
 
-    const stars = Array.from({ length: 250 }).map(() => ({
+    let ctx;
+    try {
+      ctx = canvas.getContext('2d');
+      if (!ctx) return;
+    } catch (error) {
+      console.error("Error getting canvas context:", error);
+      return;
+    }
+
+    // Set initial canvas size with fallbacks
+    let width = canvas.width = dimensions.width || 1200;
+    let height = canvas.height = dimensions.height || 800;
+
+    // Optimize star count for mobile
+    const starCount = dimensions.width < 768 ? 150 : 250;
+
+    const stars = Array.from({ length: starCount }).map(() => ({
       x: Math.random() * width,
       y: Math.random() * height,
       radius: Math.random() * 1.5,
@@ -117,8 +235,12 @@ export default function GuestsPage() {
 
     const rockImg = new window.Image();
     rockImg.src = '/rock.png';
+    rockImg.onerror = (e) => {
+      console.error("Error loading rock image:", e);
+    };
 
-    const rockCount = 12;
+    // Fewer rocks on mobile
+    const rockCount = dimensions.width < 768 ? 8 : 12;
     const rocks = Array.from({ length: rockCount }).map(() => {
       const size = Math.random() * 60 + 40;
       return {
@@ -161,6 +283,8 @@ export default function GuestsPage() {
       }
     }
 
+    let animationId = null;
+
     function animate() {
       ctx.clearRect(0, 0, width, height);
 
@@ -176,21 +300,43 @@ export default function GuestsPage() {
         }
       }
 
-      if (rockImg.complete) drawRocks();
+      // Safe checking for rockImg
+      if (rockImg && rockImg.complete && rockImg.naturalHeight !== 0) {
+        try {
+          drawRocks();
+        } catch (error) {
+          console.error("Error drawing rocks:", error);
+        }
+      }
 
-      requestAnimationFrame(animate);
+      animationId = requestAnimationFrame(animate);
     }
 
-    animate();
+    // Check if we're in a browser environment before starting animation
+    if (typeof window !== 'undefined') {
+      animate();
+    }
 
     function handleResize() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
+      if (!canvas) return;
+      try {
+        width = canvas.width = dimensions.width || window.innerWidth || 1200;
+        height = canvas.height = dimensions.height || window.innerHeight || 800;
+      } catch (error) {
+        console.error("Error resizing canvas:", error);
+      }
     }
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+    // Update canvas when dimensions change
+    handleResize();
+
+    return () => {
+      if (animationId) cancelAnimationFrame(animationId);
+    };
+  }, [dimensions]);
+
+  // Determine card layout based on screen size
+  const isMobile = dimensions.width < 768;
 
   let cardClass = "guest-card";
   if (expanded) cardClass += " expanded";
@@ -204,7 +350,7 @@ export default function GuestsPage() {
       <div className="guests-grid" style={{ justifyContent: 'center' }}>
         <div className={cardClass} ref={cardRef}>
           <div className="noise-overlay" />
-          <div className="guest-card-flex">
+          <div className={`guest-card-flex ${isMobile ? 'mobile' : ''}`}>
             <div 
               className="guest-image-wrapper" 
               onMouseMove={handleImageMove}
@@ -215,13 +361,17 @@ export default function GuestsPage() {
               }}
             >
               <div className="image-container">
-                <img 
-                  src={guest.Image} 
-                  alt={guest.Title} 
-                  className="guest-image" 
+                <Image
+                  src={guest.Image}
+                  alt={guest.Title}
+                  width={isMobile ? 400 : 300}
+                  height={isMobile ? 300 : 400}
+                  className="guest-image"
                   style={{
-                    transform: isSliding ? 'scale(1.2)' : `translate(var(--move-x), var(--move-y))`
+                    transform: isSliding ? 'scale(1.2)' : `translate(var(--move-x), var(--move-y))`,
+                    objectFit: 'cover',
                   }}
+                  priority={true}
                 />
               </div>
             </div>
@@ -238,7 +388,7 @@ export default function GuestsPage() {
                 )}
                 {guest.Agenda && (
                   <p className="guest-agenda"><b>Agenda:</b> {guest.Agenda}</p>
-                )}
+)}
               </details>
             </div>
           </div>
