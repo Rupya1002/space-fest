@@ -164,47 +164,37 @@ export default function HomePage() {
       )}
       <div className="content">
         <h1 className="title">
-          {title.split('').map((char, i) =>
-            char === ' ' ? (
-              <span key={i} style={{ display: 'inline-block', width: '0.6em' }}>&nbsp;</span>
-            ) : (
-              <span
-                key={i}
-                className={`smoke-letter ${isLeaving ? 'reverse' : ''}`}
-                style={{
-                  'animationDelay': `${i * textDelay}s`,
-                  '--drift': `${getDrift(i)}px`
-                }}
-              >
-                {char}
-              </span>
-            )
-          )}
+          {title.split('').map((char, i) => (
+            <span
+              key={i}
+              className={`smoke-letter ${isLeaving ? 'reverse' : ''}`}
+              style={{
+                'animationDelay': `${i * textDelay}s`,
+                '--drift': `${getDrift(i)}px`
+              }}
+            >
+              {char}
+            </span>
+          ))}
         </h1>
-        <h2 className="tagline" style={{ marginTop: 20 }}>
-          {tagline.split('').map((char, i) =>
-            char === ' ' ? (
-              <span key={i} style={{ display: 'inline-block', width: '0.6em' }}>&nbsp;</span>
-            ) : (
-              <span
-                key={i}
-                className={`smoke-letter ${isLeaving ? 'reverse' : ''}`}
-                style={{
-                  'animationDelay': `${taglineDelay + i * textDelay}s`,
-                  '--drift': `${getDrift(i + title.length)}px`
-                }}
-              >
-                {char}
-              </span>
-            )
-          )}
+        <h2 className="tagline">
+          {tagline.split('').map((char, i) => (
+            <span
+              key={i}
+              className={`smoke-letter ${isLeaving ? 'reverse' : ''}`}
+              style={{
+                'animationDelay': `${taglineDelay + i * textDelay}s`,
+                '--drift': `${getDrift(i + title.length)}px`
+              }}
+            >
+              {char}
+            </span>
+          ))}
         </h2>
-        <h3
+        <h3 
           className="theme-line"
           style={{
-            animationDelay: `${themeLineDelay}s`,
-            opacity: 0,
-            animation: `fadeInText 1.2s ease-in-out ${themeLineDelay}s forwards`
+            animationDelay: `${themeLineDelay}s`
           }}
         >
           {themeLine}

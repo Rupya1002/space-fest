@@ -1,5 +1,18 @@
 /* Add to your global.css or main stylesheet */
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+}
+
 .page-container {
   margin: 0;
   padding: 0;
@@ -8,7 +21,7 @@
   overflow: hidden;
   position: relative;
   background: black;
-  font-family: 'Poppins', 'Roboto', Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .background-video {
@@ -41,232 +54,89 @@
   align-items: center;
   color: #fff;
   text-align: center;
+  padding: 0 20px;
 }
 
+/* Title Styles with Smoke Effect */
 .title {
   font-size: 4rem;
-  letter-spacing: 0.08em;
   margin: 0;
-}
-
-.smoke-letter {
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeSmoke 1s forwards;
-  filter: blur(6px);
-  position: relative;
-}
-
-@keyframes fadeSmoke {
-  0% {
-    opacity: 0;
-    transform: translateY(20px) scale(1.2);
-    filter: blur(12px);
-  }
-  50% {
-    opacity: 1;
-    transform: translateY(-5px) scale(1);
-    filter: blur(3px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
-}
-
-.tagline {
-  font-size: 10 px;
-  color: #fff;
-  font-weight: bold;
-  letter-spacing: 0.2em;
-  margin-top: 20px;
-  opacity: 0;
-  animation: fadeInText 1s forwards;
-}
-
-@keyframes fadeInText {
-  to {
-    opacity: 1;
-  }
-}
-
-.buttons {
-  margin-top: 40px;
+  letter-spacing: 0.05em;
+  text-transform: none;
+  font-weight: 600;
   display: flex;
-  gap: 20px;
-}
-
-.btn {
-  padding: 12px 24px;
-  border: 2px solid #00ffff;
-  background: transparent;
-  color: #fff;
-  font-size: 1rem;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.btn:hover {
-  background: #00ffff;
-  color: black;
-}
-
-.login {
-  border-color: #b266ff;
-}
-
-.login:hover {
-  background: #b266ff;
-}
-
-.smoke-letter {
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(30px) translateX(var(--drift, 0px));
-  animation: fadeSmoke 1.4s forwards;
-  filter: blur(10px);
-  position: relative;
-}
-
-@keyframes fadeSmoke {
-  0% {
-    opacity: 0;
-    transform: translateY(30px) scale(1.2) translateX(var(--drift, 0px));
-    filter: blur(16px);
-  }
-  40% {
-    opacity: 0.7;
-    transform: translateY(-10px) scale(1.05) translateX(var(--drift, 0px));
-    filter: blur(6px);
-  }
-  80% {
-    opacity: 1;
-    transform: translateY(2px) scale(1) translateX(var(--drift, 0px));
-    filter: blur(2px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1) translateX(var(--drift, 0px));
-    filter: blur(0);
-  }
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .tagline {
   font-size: 2rem;
   color: #fff;
-  font-weight: bold;
-  letter-spacing: 0.04em;
+  font-weight: 500;
   margin-top: 20px;
-  opacity: 0;
-  animation: fadeInText 1s forwards;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-@keyframes fadeInText {
-  to {
+/* Smoke Letter Effect */
+.smoke-letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px) translateX(var(--drift, 0px));
+  animation: fadeSmoke 1.4s forwards;
+  filter: blur(6px);
+  margin: 0 0.01em; /* Add slight margin for spacing */
+}
+
+@keyframes fadeSmoke {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(1.2) translateX(var(--drift, 0px));
+    filter: blur(12px);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(-5px) scale(1) translateX(calc(var(--drift, 0px) * 0.5));
+    filter: blur(4px);
+  }
+  100% {
     opacity: 1;
+    transform: translateY(0) scale(1) translateX(0);
+    filter: blur(0);
+  }
+}
+
+.smoke-letter.reverse {
+  animation: fadeSmokeReverse 1.4s forwards;
+}
+
+@keyframes fadeSmokeReverse {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1) translateX(0);
+    filter: blur(0);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(-5px) scale(1) translateX(calc(var(--drift, 0px) * 0.5));
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(20px) scale(1.2) translateX(var(--drift, 0px));
+    filter: blur(12px);
   }
 }
 
 .theme-line {
   font-size: 1.5rem;
   color: #fff;
-  opacity: 0;
-  animation: fadeInText 1.2s ease-in-out forwards;
-  display: flex; /* Use flexbox to align spans horizontally */
-  justify-content: center; /* Center the text */
-}
-
-.theme-line.reverse {
-  animation: fadeSmokeReverse 1.4s forwards;
-}
-
-.buttons {
-  margin-top: 40px;
-  display: flex;
-  gap: 20px;
-}
-
-.btn {
-  padding: 12px 24px;
-  border: 2px solid #00ffff;
-  background: transparent;
-  color: #fff;
-  font-size: 1rem;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.btn:hover {
-  background: #00ffff;
-  color: black;
-}
-
-.login {
-  border-color: #b266ff;
-}
-
-.login:hover {
-  background: #b266ff;
-}
-
-@keyframes fadeSmoke {
-  0% {
-    opacity: 0;
-    transform: translateY(30px) scale(1.2) translateX(var(--drift, 0px));
-    filter: blur(16px);
-  }
-  40% {
-    opacity: 0.7;
-    transform: translateY(-10px) scale(1.05) translateX(var(--drift, 0px));
-    filter: blur(6px);
-  }
-  80% {
-    opacity: 1;
-    transform: translateY(2px) scale(1) translateX(var(--drift, 0px));
-    filter: blur(2px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1) translateX(var(--drift, 0px));
-    filter: blur(0);
-  }
-}
-
-@keyframes fadeSmokeReverse {
-  0% {
-    opacity: 1;
-    transform: translateY(0) scale(1) translateX(var(--drift, 0px));
-    filter: blur(0);
-  }
-  20% {
-    opacity: 1;
-    transform: translateY(2px) scale(1) translateX(var(--drift, 0px));
-    filter: blur(2px);
-  }
-  60% {
-    opacity: 0.7;
-    transform: translateY(-10px) scale(1.05) translateX(var(--drift, 0px));
-    filter: blur(6px);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(30px) scale(1.2) translateX(var(--drift, 0px));
-    filter: blur(16px);
-  }
-}
-
-.tagline {
-  font-size: 2rem;
-  color: #fff;
-  font-weight: bold;
-  letter-spacing: 0.04em;
+  font-weight: 300;
+  letter-spacing: 0.03em;
   margin-top: 20px;
   opacity: 0;
-  animation: fadeInText 1s forwards;
+  animation: fadeInText 1.2s ease-in-out forwards;
 }
 
 @keyframes fadeInText {
@@ -279,6 +149,8 @@
   margin-top: 40px;
   display: flex;
   gap: 20px;
+  opacity: 0;
+  animation: fadeInText 1.2s ease-in-out 1.5s forwards;
 }
 
 .btn {
@@ -290,6 +162,8 @@
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 0.02em;
 }
 
 .btn:hover {
@@ -303,4 +177,38 @@
 
 .login:hover {
   background: #b266ff;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .title {
+    font-size: 3rem;
+  }
+  
+  .tagline {
+    font-size: 1.5rem;
+  }
+  
+  .theme-line {
+    font-size: 1.2rem;
+  }
+  
+  .buttons {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 2rem;
+  }
+  
+  .tagline {
+    font-size: 1.2rem;
+  }
+  
+  .theme-line {
+    font-size: 1rem;
+  }
 }

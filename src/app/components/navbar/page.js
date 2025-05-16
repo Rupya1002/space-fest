@@ -39,7 +39,7 @@ export default function Navbar() {
         <Link href="#">About</Link>
         <Link href="#">Events</Link>
         <Link href="/guests">Guests</Link>
-        <Link href="#">Lectures</Link>
+        
         <Link href="#">Gallery</Link>
         <Link href="#">Schedule</Link>
         <Link href="#">Accomodation</Link>
