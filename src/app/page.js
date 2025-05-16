@@ -172,9 +172,8 @@ export default function HomePage() {
                 key={i}
                 className={`smoke-letter ${isLeaving ? 'reverse' : ''}`}
                 style={{
-                  '--drift': `${getDrift(i)}px`,
-                  animationDelay: `${i * textDelay}s`
-                  
+                  'animationDelay': `${i * textDelay}s`,
+                  '--drift': `${getDrift(i)}px`
                 }}
               >
                 {char}
@@ -190,9 +189,9 @@ export default function HomePage() {
               <span
                 key={i}
                 className={`smoke-letter ${isLeaving ? 'reverse' : ''}`}
-                style={{  '--drift': `${getDrift(i + title.length)}px`,
-                  animationDelay: `${taglineDelay + i * textDelay}s`
-                
+                style={{
+                  'animationDelay': `${taglineDelay + i * textDelay}s`,
+                  '--drift': `${getDrift(i + title.length)}px`
                 }}
               >
                 {char}

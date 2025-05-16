@@ -45,7 +45,7 @@
 
 .title {
   font-size: 4rem;
-  letter-spacing: 0.3rem;
+  letter-spacing: 0.08em;
   margin: 0;
 }
 
@@ -77,8 +77,10 @@
 }
 
 .tagline {
-  font-size: 1.5rem;
-  color: #ccc;
+  font-size: 10 px;
+  color: #fff;
+  font-weight: bold;
+  letter-spacing: 0.2em;
   margin-top: 20px;
   opacity: 0;
   animation: fadeInText 1s forwards;
@@ -119,6 +121,7 @@
 .login:hover {
   background: #b266ff;
 }
+
 .smoke-letter {
   display: inline-block;
   opacity: 0;
@@ -150,193 +153,12 @@
     filter: blur(0);
   }
 }
-.tagline {
-  font-size: 2rem;
-  color: #fff;
-  font-weight: bold;
-  letter-spacing: 0.18em;
-  margin-top: 20px;
-  opacity: 0;
-  animation: fadeInText 1s forwards;
-}
-/* Add to your global.css or main stylesheet */
-
-.page-container {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
-  position: relative;
-  background: black;
-  font-family: 'Segoe UI', sans-serif;
-}
-
-.background-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-  opacity: 0.5;
-  z-index: 1;
-}
-
-.galaxy-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.content {
-  position: relative;
-  z-index: 2;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
-  text-align: center;
-}
-
-.title {
-  font-size: 4rem;
-  letter-spacing: 0.3rem;
-  margin: 0;
-}
-
-.smoke-letter {
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(30px) translateX(var(--drift, 0px));
-  animation: fadeSmoke 1.4s forwards;
-  filter: blur(10px);
-  position: relative;
-}
-
-.smoke-letter.reverse {
-  animation: fadeSmokeReverse 1.4s forwards;
-}
-/* Add to your global.css or main stylesheet */
-
-.page-container {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
-  position: relative;
-  background: black;
-  font-family: 'Segoe UI', sans-serif;
-}
-
-.background-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-  opacity: 0.5;
-  z-index: 1;
-}
-
-.galaxy-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.content {
-  position: relative;
-  z-index: 2;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
-  text-align: center;
-}
-
-.title {
-  font-size: 4rem;
-  letter-spacing: 0.3rem;
-  margin: 0;
-}
-
-.smoke-letter {
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(30px) translateX(var(--drift, 0px));
-  animation: fadeSmoke 1.4s forwards;
-  filter: blur(10px);
-  position: relative;
-}
-
-.smoke-letter.reverse {
-  animation: fadeSmokeReverse 1.4s forwards;
-}
-
-@keyframes fadeSmoke {
-  0% {
-    opacity: 0;
-    transform: translateY(30px) scale(1.2) translateX(var(--drift, 0px));
-    filter: blur(16px);
-  }
-  40% {
-    opacity: 0.7;
-    transform: translateY(-10px) scale(1.05) translateX(var(--drift, 0px));
-    filter: blur(6px);
-  }
-  80% {
-    opacity: 1;
-    transform: translateY(2px) scale(1) translateX(var(--drift, 0px));
-    filter: blur(2px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1) translateX(var(--drift, 0px));
-    filter: blur(0);
-  }
-}
-
-@keyframes fadeSmokeReverse {
-  0% {
-    opacity: 1;
-    transform: translateY(0) scale(1) translateX(var(--drift, 0px));
-    filter: blur(0);
-  }
-  20% {
-    opacity: 1;
-    transform: translateY(2px) scale(1) translateX(var(--drift, 0px));
-    filter: blur(2px);
-  }
-  60% {
-    opacity: 0.7;
-    transform: translateY(-10px) scale(1.05) translateX(var(--drift, 0px));
-    filter: blur(6px);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(30px) scale(1.2) translateX(var(--drift, 0px));
-    filter: blur(16px);
-  }
-}
 
 .tagline {
   font-size: 2rem;
   color: #fff;
   font-weight: bold;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.04em;
   margin-top: 20px;
   opacity: 0;
   animation: fadeInText 1s forwards;
@@ -441,7 +263,7 @@
   font-size: 2rem;
   color: #fff;
   font-weight: bold;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.04em;
   margin-top: 20px;
   opacity: 0;
   animation: fadeInText 1s forwards;
